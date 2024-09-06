@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import oson.task.taskManagment.model.Task;
 import oson.task.taskManagment.payload.TaskDTO;
 import oson.task.taskManagment.service.TaskService;
 
-@RestController("/api/v1/tasks")
 @Slf4j
+@RestController("/api/v1/tasks")
 public class TaskController {
 
     private final TaskService taskService;
@@ -23,17 +22,17 @@ public class TaskController {
         try {
             return ResponseEntity.ok(taskService.findAll());
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("TaskController(getAll) :", e);
             return ResponseEntity.badRequest().build();
         }
     }
 
     @GetMapping("/{taskId}")
-    public HttpEntity<?> getById(@PathVariable("taskId") Integer taskId) {
+    public HttpEntity<?> getById(@PathVariable Integer taskId) {
         try {
             return ResponseEntity.ok(taskService.findById(taskId));
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("TaskController(getById): ", e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -43,18 +42,20 @@ public class TaskController {
         try {
             return ResponseEntity.status(201).body(taskService.save(taskDTO));
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("TaskController(save): ", e);
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PutMapping("/{taskId}")
-    public HttpEntity<?> update(@PathVariable Integer taskId,
-                                @RequestBody TaskDTO taskDTO) {
+    public HttpEntity<?> update(
+            @PathVariable Integer taskId,
+            @RequestBody TaskDTO taskDTO
+    ) {
         try {
             return ResponseEntity.status(201).body(taskService.update(taskId, taskDTO));
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("TaskController(update): ", e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -65,7 +66,7 @@ public class TaskController {
             taskService.delete(taskId);
             return ResponseEntity.status(204).build();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("TaskController(delete): ", e);
             return ResponseEntity.badRequest().build();
         }
     }
