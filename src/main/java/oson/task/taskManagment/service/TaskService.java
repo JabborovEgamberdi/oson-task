@@ -50,7 +50,11 @@ public class TaskService {
     }
 
     public void delete(Integer taskId) {
-        this.taskRepository.deleteById(taskId);
+        if (this.taskRepository.existsById(taskId)) {
+            this.taskRepository.deleteById(taskId);
+        } else {
+            throw new TaskNotFoundException(String.format("Task not found with this id: %d", taskId));
+        }
     }
 
 }
