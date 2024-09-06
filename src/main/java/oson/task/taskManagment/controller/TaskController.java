@@ -22,7 +22,7 @@ public class TaskController {
         try {
             return ResponseEntity.ok(taskService.findAll());
         } catch (Exception e) {
-            log.error("TaskController(getAll) :", e);
+            log.error("Error: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -32,7 +32,7 @@ public class TaskController {
         try {
             return ResponseEntity.ok(taskService.findById(taskId));
         } catch (Exception e) {
-            log.error("TaskController(getById): ", e);
+            log.error("Error: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -42,7 +42,7 @@ public class TaskController {
         try {
             return ResponseEntity.status(201).body(taskService.save(taskDTO));
         } catch (Exception e) {
-            log.error("TaskController(save): ", e);
+            log.error("Error: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -55,7 +55,7 @@ public class TaskController {
         try {
             return ResponseEntity.status(201).body(taskService.update(taskId, taskDTO));
         } catch (Exception e) {
-            log.error("TaskController(update): ", e);
+            log.error("Error: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -66,7 +66,7 @@ public class TaskController {
             taskService.delete(taskId);
             return ResponseEntity.status(204).build();
         } catch (Exception e) {
-            log.error("TaskController(delete): ", e);
+            log.error("Error: ", e);
             return ResponseEntity.badRequest().build();
         }
     }
