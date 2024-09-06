@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class TaskDTO implements Serializable {
 
     @NotBlank
+    @NotNull
     private String title;
 
     private String description;
