@@ -14,6 +14,7 @@ public class TaskFactory {
                 .title(taskDTO.getTitle())
                 .description(taskDTO.getDescription())
                 .dueDate(taskDTO.getDueDate())
+                .status(taskDTO.getStatus())
                 .build();
     }
 
