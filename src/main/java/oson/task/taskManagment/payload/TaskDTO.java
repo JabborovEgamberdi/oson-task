@@ -1,6 +1,7 @@
 package oson.task.taskManagment.payload;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import oson.task.taskManagment.model.Task;
 import oson.task.taskManagment.model.TaskStatus;
