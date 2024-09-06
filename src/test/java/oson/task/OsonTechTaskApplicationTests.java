@@ -1,4 +1,4 @@
-package oson.task.osontechtask;
+package oson.task;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
