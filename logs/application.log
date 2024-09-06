@@ -94,3 +94,7 @@
 2024-09-06 10:15:22 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
 2024-09-06 10:15:22 INFO  oson.task.OsonTechTaskApplication - Started OsonTechTaskApplication in 0.476 seconds (process running for 204.336)
 2024-09-06 10:15:22 INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-09-06 10:16:19 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-06 10:16:19 WARN  o.s.b.f.s.DisposableBeanAdapter - Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-224]
+2024-09-06 10:16:19 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2024-09-06 10:16:19 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.

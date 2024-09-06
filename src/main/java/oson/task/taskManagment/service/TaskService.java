@@ -7,23 +7,17 @@ import oson.task.taskManagment.factory.TaskFactory;
 import oson.task.taskManagment.model.Task;
 import oson.task.taskManagment.payload.TaskDTO;
 import oson.task.taskManagment.repo.TaskRepository;
-import oson.task.taskManagment.validator.Validator;
 
 import java.util.List;
 
-@Service
 @Slf4j
+@Service
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    private final List<Validator> validator;
 
-    public TaskService(
-            TaskRepository taskRepository,
-            List<Validator> validator
-    ) {
+    public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
-        this.validator = validator;
     }
 
     public List<Task> findAll() {
@@ -37,13 +31,11 @@ public class TaskService {
     }
 
     public Task save(TaskDTO taskDTO) {
-        this.validator.forEach(validator -> validator.validate(taskDTO));
         Task task = TaskFactory.createTask(taskDTO);
         return this.taskRepository.save(task);
     }
 
     public Task update(Integer taskId, TaskDTO taskDTO) {
-        this.validator.forEach(validator -> validator.validate(taskDTO));
         Task task = this.findById(taskId);
         task = TaskFactory.updateTask(task, taskDTO);
         return this.taskRepository.save(task);

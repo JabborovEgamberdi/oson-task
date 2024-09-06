@@ -6,7 +6,7 @@ import oson.task.taskManagment.payload.TaskDTO;
 
 @Slf4j
 @Service
-public class DueDateValidator implements Validator {
+public class DueDateValidator implements TaskValidator {
 
     // for the next steps
     @Override
