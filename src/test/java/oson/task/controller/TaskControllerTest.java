@@ -85,12 +85,22 @@ public class TaskControllerTest {
     @Test
     public void update() {
         TaskDTO taskDTO = new TaskDTO(task.getTitle(), "Task 1 updated", task.getDueDate());
-        when(taskService.update(1, taskDTO)).thenReturn(task);
+        Task newTask = new Task();
+        newTask.setDescription(taskDTO.getDescription());
+        when(taskService.update(1, taskDTO)).thenReturn(newTask);
         doNothing().when(taskValidators).forEach(any());
         ResponseEntity<Task> response = taskController.update(1, taskDTO);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(taskDTO.getDescription(), "Task 1 updated");
+        assertEquals(response.getBody().getDescription(), taskDTO.getDescription());
+    }
+
+    @DisplayName("Test for delete() API method")
+    @Test
+    public void delete() {
+        doNothing().when(taskService).delete(1);
+        ResponseEntity<Void> delete = taskController.delete(1);
+        assertEquals(HttpStatus.NO_CONTENT, delete.getStatusCode());
     }
 
 }

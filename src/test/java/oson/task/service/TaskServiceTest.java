@@ -42,7 +42,6 @@ public class TaskServiceTest {
     }
 
     @DisplayName("Test findAll() service method")
-    @Order(1)
     @Test
     public void findAll() {
         when(taskRepository.findAll()).thenReturn(Collections.singletonList(task));
@@ -50,7 +49,6 @@ public class TaskServiceTest {
     }
 
     @DisplayName("Test findById() service method")
-    @Order(2)
     @Test
     public void findById() {
         when(taskRepository.findById(1)).thenReturn(Optional.of(task));
@@ -60,7 +58,6 @@ public class TaskServiceTest {
     }
 
     @DisplayName("Test save() service method")
-    @Order(3)
     @Test
     public void save() {
         when(taskRepository.save(any(Task.class))).thenReturn(task);
@@ -69,7 +66,6 @@ public class TaskServiceTest {
     }
 
     @DisplayName("Test update() service method")
-    @Order(4)
     @Test
     public void update() {
         when(taskRepository.findById(1)).thenReturn(Optional.of(task));
@@ -82,7 +78,6 @@ public class TaskServiceTest {
     }
 
     @DisplayName("Test delete() service method")
-    @Order(5)
     @Test
     public void delete() {
         when(taskRepository.existsById(1)).thenReturn(true);
