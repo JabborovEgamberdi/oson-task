@@ -37,7 +37,9 @@ public class TaskService {
 
     public Task update(Integer taskId, TaskDTO taskDTO) {
         Task task = this.findById(taskId);
-        task = TaskFactory.updateTask(task, taskDTO);
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setStatus(taskDTO.getStatus());
         return this.taskRepository.save(task);
     }
 

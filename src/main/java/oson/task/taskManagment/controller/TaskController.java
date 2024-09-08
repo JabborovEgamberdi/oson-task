@@ -1,9 +1,9 @@
 package oson.task.taskManagment.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import oson.task.taskManagment.model.Task;
 import oson.task.taskManagment.payload.TaskDTO;
 import oson.task.taskManagment.service.TaskService;
 import oson.task.taskManagment.validator.TaskValidator;
@@ -26,7 +26,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public HttpEntity<?> getAll() {
+    public ResponseEntity<List<Task>> getAll() {
         try {
             return ResponseEntity.ok(taskService.findAll());
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
-    public HttpEntity<?> getById(@PathVariable Integer taskId) {
+    public ResponseEntity<Task> getById(@PathVariable Integer taskId) {
         try {
             return ResponseEntity.ok(taskService.findById(taskId));
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public HttpEntity<?> save(@RequestBody TaskDTO taskDTO) {
+    public ResponseEntity<Task> save(@RequestBody TaskDTO taskDTO) {
         try {
             this.validators.forEach(validator -> validator.validate(taskDTO));
             return ResponseEntity.status(201).body(taskService.save(taskDTO));
@@ -57,7 +57,7 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
-    public HttpEntity<?> update(
+    public ResponseEntity<Task> update(
             @PathVariable Integer taskId,
             @RequestBody TaskDTO taskDTO
     ) {
@@ -71,7 +71,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{taskId}")
-    public HttpEntity<?> delete(@PathVariable Integer taskId) {
+    public ResponseEntity<Void> delete(@PathVariable Integer taskId) {
         try {
             taskService.delete(taskId);
             return ResponseEntity.status(204).build();
