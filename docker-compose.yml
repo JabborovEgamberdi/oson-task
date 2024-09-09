@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-boot-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:file:/data/testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_H2_CONSOLE_ENABLED: "true"
+    volumes:
+      - app_data:/data
+    depends_on:
+      - h2db
+
+  h2db:
+    image: oscarfonts/h2
+    container_name: h2-database
+    ports:
+      - "9090:8082"
+    environment:
+      H2_OPTIONS: -ifNotExists
+    volumes:
+      - h2_data:/opt/h2-data
+
+volumes:
+  app_data:
+  h2_data:

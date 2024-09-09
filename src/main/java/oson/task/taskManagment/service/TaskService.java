@@ -39,6 +39,7 @@ public class TaskService {
         Task task = this.findById(taskId);
         task.setTitle(taskDTO.getTitle());
         task.setDescription(taskDTO.getDescription());
+        task.setDueDate(taskDTO.getDueDate());
         task.setStatus(taskDTO.getStatus());
         return this.taskRepository.save(task);
     }

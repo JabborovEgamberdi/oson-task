@@ -9,13 +9,4 @@ public class TaskFactory {
         return new Task(taskDTO.getTitle(), taskDTO.getDescription(), taskDTO.getDueDate());
     }
 
-    public static Task updateTask(Task task, TaskDTO taskDTO) {
-        return Task.builder()
-                .title(taskDTO.getTitle())
-                .description(taskDTO.getDescription())
-                .dueDate(taskDTO.getDueDate())
-                .status(taskDTO.getStatus())
-                .build();
-    }
-
 }

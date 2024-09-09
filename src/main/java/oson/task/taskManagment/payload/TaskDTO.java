@@ -1,7 +1,11 @@
 package oson.task.taskManagment.payload;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import oson.task.taskManagment.model.Task;
 import oson.task.taskManagment.model.TaskStatus;
 
@@ -13,6 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class TaskDTO implements Serializable {
 
     private String title;
