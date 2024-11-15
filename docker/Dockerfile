@@ -1,8 +1,8 @@
 # Stage 1: Build the application
 FROM maven:3.9.4-eclipse-temurin-21 AS builder
 WORKDIR /app
-COPY pom.xml .
-COPY src ./src
+COPY ../pom.xml .
+COPY ../src ./src
 #RUN mvn clean package -DskipTests=false
 RUN --mount=type=cache,target=/root/.m2/repository mvn -e -B clean package -Dmaven.test.skip
 
