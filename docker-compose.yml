@@ -15,6 +15,14 @@ services:
       SPRING_DATASOURCE_PASSWORD:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_H2_CONSOLE_ENABLED: "true"
+      OTEL_SERVICE_NAME: Oson
+      OTEL_METRICS_EXPORTER: none
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_LOGS_EXPORTER: otlp
+
+#      OTEL_TRACES_EXPORTER: "logging"
+#      OTEL_METRICS_EXPORTER: "logging"
+#      OTEL_LOGS_EXPORTER: "logging"
     volumes:
       - app_data:/data
     depends_on:
@@ -24,7 +32,7 @@ services:
     image: oscarfonts/h2
     container_name: h2-database
     ports:
-      - "9090:8082"
+      - "8082:8082"
     environment:
       H2_OPTIONS: -ifNotExists
     volumes:
@@ -32,17 +40,22 @@ services:
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
-    command: [ "--config=/etc/otel-collector-config.yaml" ]
+    command: [ "--config=/etc/otel-collector-config.yml" ]
     volumes:
-      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     ports:
-      - "4317:4317" # OTLP gRPC receiver
+      - "4317:4317"
+      - "4318:4318"
+      - "9091:9091"
+
   jaeger:
       image: jaegertracing/all-in-one:latest
       ports:
-        - "6831:6831/udp" # UDP port for Jaeger agent
-        - "16686:16686" # Web UI
-        - "14268:14268" # HTTP port for spans
+        - "6831:6831/udp"
+        - "16686:16686"
+        - "14268:14268"
+        - "14250:14250"
+
   prometheus:
       image: prom/prometheus:latest
       volumes:
@@ -53,3 +66,7 @@ services:
 volumes:
   app_data:
   h2_data:
+
+networks:
+  default:
+    name: oson-tech-network
