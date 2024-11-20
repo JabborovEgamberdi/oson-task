@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: spring-boot-app
+    container_name: app
     ports:
       - "8080:8080"
     environment:
@@ -15,28 +15,29 @@ services:
       SPRING_DATASOURCE_PASSWORD:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_H2_CONSOLE_ENABLED: "true"
-      OTEL_SERVICE_NAME: Oson
+      OTEL_SERVICE_NAME: app
       OTEL_METRICS_EXPORTER: none
       OTEL_TRACES_EXPORTER: otlp
       OTEL_LOGS_EXPORTER: otlp
-
-#      OTEL_TRACES_EXPORTER: "logging"
-#      OTEL_METRICS_EXPORTER: "logging"
-#      OTEL_LOGS_EXPORTER: "logging"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
     volumes:
       - app_data:/data
     depends_on:
       - h2db
+    networks:
+      default:
 
   h2db:
     image: oscarfonts/h2
     container_name: h2-database
     ports:
-      - "8082:8082"
+      - "7070:7070"
     environment:
       H2_OPTIONS: -ifNotExists
     volumes:
       - h2_data:/opt/h2-data
+    networks:
+      default:
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
@@ -47,6 +48,9 @@ services:
       - "4317:4317"
       - "4318:4318"
       - "9091:9091"
+    networks:
+      default:
+
 
   jaeger:
       image: jaegertracing/all-in-one:latest
@@ -55,6 +59,8 @@ services:
         - "16686:16686"
         - "14268:14268"
         - "14250:14250"
+      networks:
+        default:
 
   prometheus:
       image: prom/prometheus:latest
@@ -62,6 +68,29 @@ services:
         - ./prometheus.yml:/etc/prometheus/prometheus.yml
       ports:
         - "9090:9090"
+      networks:
+        default:
+
+  loki:
+    image: grafana/loki:latest
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    networks:
+      default:
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    depends_on:
+      - prometheus
+    networks:
+      default:
 
 volumes:
   app_data:

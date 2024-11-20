@@ -9,8 +9,8 @@ RUN --mount=type=cache,target=/root/.m2/repository mvn -e -B clean package -Dmav
 # Stage 2: Run the application
 FROM eclipse-temurin:21-jdk-alpine AS runner
 WORKDIR /app
-ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar otlp.jar
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar opentelemetry-javaagent.jar
 COPY --from=builder /app/target/*.jar app.jar
 #ENV JAVA_TOOL_OPTIONS="-javaagent:/app/opentelemetry-javaagent.jar"
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-javaagent:opentelemetry-javaagent.jar", "-jar", "app.jar"]
